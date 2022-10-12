@@ -1,9 +1,43 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {setSort} from "../redux/slices/filterSlice";
+
+// const sortList = [
+//     {name: 'популярности (ASC)', sortProperty: '-rating'},
+//     {name: 'популярности (DESC)', sortProperty: 'rating'},
+//     {name: 'цене (ASC)', sortProperty: '-price'},
+//     {name: 'цене (DESC)', sortProperty: 'price'},
+//     {name: 'алфавиту (ASC)', sortProperty: '-title'},
+//     {name: 'алфавиту (DESC)', sortProperty: 'title'},
+// ]
 
 const Sort = () => {
+    const {sort} = useSelector(state => state.filterSlice)
+    const dispatch = useDispatch()
+    const sortRef = useRef()
+
+    const [open, setOpen] = useState(false)
+    const sorts = ['популярности', 'цене', 'алфавиту']
+    const sortName = sort.name
+
+    const onClickSortItem = (i) => {
+        dispatch(setSort(i))
+        setOpen(false)
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (sortRef.current && !e.path.includes(sortRef.current)) {
+                setOpen(false)
+            }
+        }
+        document.body.addEventListener('click', handleClickOutside)
+
+        return () => document.body.removeEventListener('click', handleClickOutside)
+    }, [])
 
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"
@@ -18,15 +52,17 @@ const Sort = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>популярности</span>
+                <span onClick={() => setOpen(!open)}>{sortName}</span>
             </div>
-            <div className="sort__popup">
+            {open && <div className="sort__popup">
                 <ul>
-                    <li className="active">популярности</li>
-                    <li>цене</li>
-                    <li>алфавиту</li>
+                    {sorts.map((sort, i) =>
+                        <li key={i} onClick={() => onClickSortItem(sort)}
+                            className={sort.name === i ? "active" : ''}>{sort}</li>
+                    )}
                 </ul>
             </div>
+            }
         </div>
     );
 };

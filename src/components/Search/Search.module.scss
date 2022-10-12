@@ -1,0 +1,29 @@
+.input {
+  position: relative;
+  input {
+    border-radius: 10px;
+    border-color: rgba(0, 0, 0, 0.21);
+    padding: 10px 32px 10px 35px;
+    font-size: 16px;
+    &:focus {
+      border-color: rgba(0, 0, 0, 0.53)
+    }
+  }
+}
+.iconSearch {
+  position: absolute;
+  top: 11px;
+  left: 7px;
+  height: 23px;
+  width: 23px;
+  opacity: 0.3;
+}
+.iconClose {
+  position: absolute;
+  top: 11px;
+  right: 7px;
+  height: 25px;
+  width: 25px;
+  opacity: 0.7;
+  cursor: pointer;
+}
