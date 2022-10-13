@@ -1,19 +1,23 @@
 import React, {useCallback, useRef, useState} from 'react';
 import debounce from 'lodash.debounce'
 import styles from './Search.module.scss'
+import {useDispatch} from "react-redux";
+import {setSearchValue} from "../../redux/slices/filterSlice";
 
 const Search = () => {
     const [value, setValue] = useState('')
     const inputRef = useRef()
+    const dispatch = useDispatch()
 
     const onClearInput = () => {
         setValue('')
+        dispatch(setSearchValue(''))
         inputRef.current.focus()
     }
 
     const updateSearchValue = useCallback( // eslint-disable-line
         debounce((str) => {
-        console.log(str)
+            dispatch(setSearchValue(str))
     }, 300), [])
 
     const onChangeInput = (e) => {

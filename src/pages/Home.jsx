@@ -9,6 +9,8 @@ import {useSelector} from "react-redux";
 const Home = ({isLoading, pizzas}) => {
     const {items} = useSelector(state => state.cartSlice)
 
+    const skeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />)
+
     return (
         <div className="container">
             <div className="content__top">
@@ -16,15 +18,26 @@ const Home = ({isLoading, pizzas}) => {
                 <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {
-                    isLoading
-                    ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-                    : pizzas.map(pizza =>
-                        <Index key={pizza.id} items={items} {...pizza} />
+            {
+                isLoading === 'error'
+                    ? (
+                        <div className="cart content__error-info">
+                            <h2>Произошла ошибка <span>😕</span></h2>
+                            <p>Повторите попытку немного позже :(</p>
+                        </div>
                     )
-                }
-            </div>
+                    :
+                    (
+                        <div className="content__items">
+                            {isLoading === 'loading'
+                                ? skeleton
+                                : pizzas.map(pizza =>
+                                    <Index key={pizza.id} items={items} {...pizza} />
+                                )
+                            }
+                        </div>
+                    )
+            }
             <Pagination />
         </div>
     );
