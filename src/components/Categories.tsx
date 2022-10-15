@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {setCategoryId} from "../redux/slices/filterSlice";
+import {RootState} from "../redux/store";
 
-const Categories = () => {
-    const {categoryId} = useSelector(state => state.filterSlice)
+const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
+
+const Categories: FC = () => {
+    const {categoryId} = useSelector((state: RootState) => state.filterSlice)
     const dispatch = useDispatch()
-    const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
     return (
         <div className="categories">

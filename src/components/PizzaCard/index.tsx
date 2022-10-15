@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {addItem} from "../../redux/slices/cartSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {TPizzaItem} from "../../redux/slices/pizzaSlice";
+import {RootState} from "../../redux/store";
 
 const pizzaTypes = ['тонкое', 'традиционное']
 
-const PizzaCard = (props) => {
+const PizzaCard: FC<TPizzaItem> = (props) => {
     const {id, imageUrl, title, types, sizes, price} = props
-    const cartItem = useSelector(state => state.cartSlice.items.find(item => item.id === id))
+    const cartItem = useSelector((state: RootState) => state.cartSlice.items.find(item => item.id === id))
     const addedItem = cartItem ? cartItem.count : 0
 
     const [activeType, setActiveType] = useState(0)
@@ -23,7 +25,6 @@ const PizzaCard = (props) => {
             price,
             count: addedItem
         }
-
         dispatch(addItem(item))
     }
 
