@@ -10,7 +10,7 @@ const Cart: FC = () => {
     const {items, totalPrice, totalCount} = useSelector((state: RootState) => state.cartSlice)
     const dispatch = useDispatch()
 
-    if (!totalCount && !items) {
+    if (!totalCount) {
         return <CartEmpty/>
     }
 

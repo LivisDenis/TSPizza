@@ -26,7 +26,7 @@ export const cartSlice = createSlice({
         minusItem(state, action) {
             const findItem = state.items.find(item => item.id === action.payload)
 
-            if (findItem && findItem.count > 1) {
+            if (findItem) {
                 findItem.count--
             }
             state.totalCount = calcTotalCount(state.items)

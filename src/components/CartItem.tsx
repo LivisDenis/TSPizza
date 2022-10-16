@@ -7,12 +7,6 @@ const CartItem: FC<TCartItem> = (props) => {
     const {id, imageUrl, title, type, size, price, count} = props
     const dispatch = useDispatch()
 
-    const onClickAdd = () => {
-        dispatch(addItem({id}))
-    }
-    const onClickMinus = () => {
-        dispatch(minusItem(id))
-    }
     const onClickRemove = () => {
         if (window.confirm('Ты действительно хочешь удалить товар?')) {
             dispatch(removeItem(id));
@@ -34,7 +28,7 @@ const CartItem: FC<TCartItem> = (props) => {
                     <p>{type}, {size} см.</p>
                 </div>
                 <div className="cart__item-count">
-                    <div onClick={onClickMinus} className="button button--outline button--circle cart__item-count-minus">
+                    <button disabled={count === 1} onClick={() => dispatch(minusItem(id))} className="button button--outline button--circle cart__item-count-minus">
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -45,9 +39,9 @@ const CartItem: FC<TCartItem> = (props) => {
                                 fill="#EB5A1E"/>
                         </svg>
 
-                    </div>
+                    </button>
                     <b>{count}</b>
-                    <div onClick={onClickAdd} className="button button--outline button--circle cart__item-count-plus">
+                    <button onClick={() => dispatch(addItem({id}))} className="button button--outline button--circle cart__item-count-plus">
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -58,7 +52,7 @@ const CartItem: FC<TCartItem> = (props) => {
                                 fill="#EB5A1E"/>
                         </svg>
 
-                    </div>
+                    </button>
                 </div>
                 <div className="cart__item-price">
                     <b>{price * count} ₽</b>

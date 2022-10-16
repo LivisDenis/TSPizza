@@ -2,11 +2,11 @@ import React, {FC} from 'react';
 import {useDispatch} from "react-redux";
 import {setCategoryId} from "../redux/filter/slice";
 
-const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
-
 type TCategoriesProp = {
     categoryId: number
 }
+
+const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
 const Categories: FC<TCategoriesProp> = React.memo(({categoryId}) => {
     const dispatch = useDispatch()

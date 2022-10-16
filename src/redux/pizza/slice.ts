@@ -2,8 +2,6 @@ import {createSlice} from "@reduxjs/toolkit";
 import {TPizzaState, PizzaSliceEnum} from "./types";
 import {fetchPizza} from "./asyncAction";
 
-
-
 const initialState: TPizzaState = {
     items: [],
     status: PizzaSliceEnum.LOADING
