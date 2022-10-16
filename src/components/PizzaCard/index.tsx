@@ -1,8 +1,8 @@
 import React, {FC, useState} from 'react';
-import {addItem} from "../../redux/slices/cartSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {TPizzaItem} from "../../redux/slices/pizzaSlice";
 import {RootState} from "../../redux/store";
+import {addItem} from "../../redux/cart/slice";
+import {TPizzaItem} from "../../redux/pizza/types";
 
 const pizzaTypes = ['тонкое', 'традиционное']
 

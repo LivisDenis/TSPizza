@@ -1,26 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {TCartState} from "./types";
+import {getCartLS} from "../../utils/getCartLS";
+import {calcTotalCount, calcTotalPrice} from "../../utils/calc";
 
-export type TCartItem = {
-    id: number
-    imageUrl: string
-    title: string
-    type: string,
-    size: string,
-    price: number
-    count: number
-}
-
-type TCartState = {
-    totalPrice: number
-    totalCount: number
-    items: TCartItem[]
-}
-
-const initialState: TCartState = {
-    totalPrice: 0,
-    totalCount: 0,
-    items: []
-}
+const initialState: TCartState = getCartLS()
 
 export const cartSlice = createSlice({
     name: 'cart',
@@ -37,9 +20,8 @@ export const cartSlice = createSlice({
                     count: 1
                 })
             }
-
-            state.totalCount = state.items.reduce((sum, obj) => sum + obj.count, 0)
-            state.totalPrice = state.items.reduce((sum, obj) => obj.price * obj.count + sum, 0)
+            state.totalCount = calcTotalCount(state.items)
+            state.totalPrice = calcTotalPrice(state.items)
         },
         minusItem(state, action) {
             const findItem = state.items.find(item => item.id === action.payload)
@@ -47,13 +29,13 @@ export const cartSlice = createSlice({
             if (findItem && findItem.count > 1) {
                 findItem.count--
             }
-            state.totalCount = state.items.reduce((sum, obj) => sum + obj.count, 0)
-            state.totalPrice = state.items.reduce((sum, obj) => obj.price * obj.count + sum, 0)
+            state.totalCount = calcTotalCount(state.items)
+            state.totalPrice = calcTotalPrice(state.items)
         },
         removeItem(state, action) {
             state.items = state.items.filter(item => item.id !== action.payload)
-            state.totalCount = state.items.reduce((sum, obj) => sum + obj.count, 0)
-            state.totalPrice = state.items.reduce((sum, obj) => obj.price * obj.count + sum, 0)
+            state.totalCount = calcTotalCount(state.items)
+            state.totalPrice = calcTotalPrice(state.items)
         },
         clearCart(state) {
             state.items = []
